@@ -24,6 +24,7 @@ export default function Table({data}:{data:DataApi[]}) {
         },
         onSuccess:(data,id)=>{
             setTableData((prev)=>prev.filter((item)=>item.id!==id))
+            console.log(data)
         },
         onError:(error)=>{
             console.error(error)
