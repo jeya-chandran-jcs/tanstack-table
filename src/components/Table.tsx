@@ -1,5 +1,5 @@
 import {useReactTable,getCoreRowModel,flexRender,getPaginationRowModel, getSortedRowModel} from "@tanstack/react-table";
-import type { DataApi } from "../types";
+import type { DataApi,CustomTableMeta } from "../types";
 import { columns } from "../utility/column";
 import "../App.css"
 import Pagination from "./Pagination";
@@ -9,6 +9,7 @@ import { deleteData } from "../utility/deleteData";
 import { API } from "../global";
 import Modal from "./Modal";
 import { putData } from "../utility/PutData";
+
 
 export default function Table({data}:{data:DataApi[]}) {
     const [pagination,setPagination]=useState<{pageIndex:number,pageSize:number}>({pageIndex:0,pageSize:7})
@@ -71,7 +72,7 @@ export default function Table({data}:{data:DataApi[]}) {
         setIsModalOpen(false);
     };
 
-    const table=useReactTable({
+    const table=useReactTable<Partial<DataApi>>({
         data:tableData,
         columns,
         state:{
@@ -86,7 +87,7 @@ export default function Table({data}:{data:DataApi[]}) {
         meta:{
             onDelete:handleDelete,
             onEdit: handleEdit
-        }
+        }  as CustomTableMeta
     })
 
    
@@ -99,7 +100,7 @@ export default function Table({data}:{data:DataApi[]}) {
                 <tr key={headerGroup.id} >
                     {headerGroup.headers.map((header)=>(
                         
-                        <th key={header.id}className={`py-2 px-4 text-center cursor-pointer select-none transition duration-200 hover:bg-gray-100 
+                        <th key={header.id} className={`py-2 px-4 text-center cursor-pointer select-none transition duration-200 hover:bg-gray-100 
                             ${header.column.getIsSorted() ? "text-blue-600 font-semibold" : ""}`} 
                             onClick={header.column.getToggleSortingHandler()}>
                             

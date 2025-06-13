@@ -1,5 +1,7 @@
-export default function Modal({ isOpen, onClose, onSave, data, onChange }) {
-  if (!isOpen) return null;
+import type { ModalProps } from "../types";
+
+export default function Modal({ isOpen, onClose, onSave, data, onChange }:ModalProps) {
+   if (!isOpen || !data) return null; 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
