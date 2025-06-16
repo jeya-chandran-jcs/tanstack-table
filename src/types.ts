@@ -19,3 +19,8 @@ export interface CustomTableMeta  {
   onDelete: (row: DataApi) => void;
   onEdit: (row:DataApi) => void;
 };
+
+export type FormProps={
+  data:DataApi[],
+  error:unknown
+}

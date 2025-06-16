@@ -4,9 +4,11 @@ import { useMutation } from '@tanstack/react-query'
 import { postData } from '../utility/postData'
 import { API } from '../global'
 import { useNavigate } from '@tanstack/react-router'
+import FunctionErrorBoundary from '../ErrorCatch/FunctionErrorBoundary'
 
 export default function Form({data}:{data:DataApi[]}) {
     const [formData,setFormData]=useState<Partial<DataApi >>({name:"",description:""})  
+    const [mutationError,setMutationError]=useState<unknown>(null)
     const navigate=useNavigate()  
     if(data)
     {
@@ -20,6 +22,7 @@ export default function Form({data}:{data:DataApi[]}) {
         },
         onError:(error)=>{
             console.error("error while posting data",error)
+            setMutationError(error)
         }
     })
 
@@ -40,8 +43,12 @@ export default function Form({data}:{data:DataApi[]}) {
             description:formData.description!
         }
         mutation.mutate(addData)
-        alert("data added successfully")
+        if(mutation.isSuccess)
+        {
+                    alert("data added successfully")
         navigate({to:"/details"})
+        }
+
         
     }
 
@@ -50,7 +57,10 @@ export default function Form({data}:{data:DataApi[]}) {
   return (
     <main className='w-full min-h-screen flex flex-col justify-center items-center'>
         <h1 className='mb-8 bg-gray-300 w-3/4 rounded-md font-extrabold text-2xl py-3 text-center'>TanStack  </h1>
-            <form onSubmit={handleSubmit} className='w-3/4 max-w-2xl border border-gray-300 rounded-md shadow-md hover:shadow-blue-300 transition duration 300 ease-in-out px-6 py-4 flex flex-col'>
+           {mutationError ? 
+                <FunctionErrorBoundary error={mutationError}/>
+            :
+                <form onSubmit={handleSubmit} className='w-3/4 max-w-2xl border border-gray-300 rounded-md shadow-md hover:shadow-blue-300 transition duration 300 ease-in-out px-6 py-4 flex flex-col'>
                 <h2 className='font-bold text-lg text-gray-600 text-center'>Add Your Favourite Food</h2>
                 <div className='mt-4'>
                     <input required  placeholder='food name...' name="name" onChange={handleChange} value={formData.name} className='w-full border border-gray-400 rounded-md shadow-md px-4 py-2 font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration 300 ease-in-out' />
@@ -69,7 +79,8 @@ export default function Form({data}:{data:DataApi[]}) {
                 <button className='mt-4 border border-gray-300 rounded-md bg-blue-400 text-white font-bold text-lg py-2 hover:bg-blue-600 transition duration 300 ease-in-out'>Add</button>
                 }
         
-            </form>    
+            </form>
+            }     
         
     </main>
   )
