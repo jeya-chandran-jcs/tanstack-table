@@ -2,7 +2,7 @@
 import type { Table } from '@tanstack/react-table'
 import type { DataApi } from '../types'
 
-export default function Pagination({table}: { table: Table<Partial<DataApi>> }) {
+export default function Pagination({table}: { table: Table<DataApi> }) {
 
     const handlePrev=()=>{
         table.previousPage()

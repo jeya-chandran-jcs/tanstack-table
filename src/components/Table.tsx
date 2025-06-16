@@ -1,5 +1,5 @@
 import {useReactTable,getCoreRowModel,flexRender,getPaginationRowModel, getSortedRowModel} from "@tanstack/react-table";
-import type { DataApi,CustomTableMeta } from "../types";
+import type { DataApi } from "../types";
 import { columns } from "../utility/column";
 import "../App.css"
 import Pagination from "./Pagination";
@@ -14,7 +14,8 @@ import { putData } from "../utility/PutData";
 export default function Table({data}:{data:DataApi[]}) {
     const [pagination,setPagination]=useState<{pageIndex:number,pageSize:number}>({pageIndex:0,pageSize:7})
     const [sorting,setSorting]=useState([{ id: "id", desc: true }, { id: "name", desc: true },{ id: "description", desc: true }])
-    const [tableData, setTableData] = useState<Partial<DataApi>[]>(data);
+    
+    const [tableData, setTableData] = useState<DataApi[]>(data);
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const [editData, setEditData] = useState<Partial<DataApi> | null>(null);
 
@@ -50,7 +51,7 @@ export default function Table({data}:{data:DataApi[]}) {
         }
     });
 
-    const handleDelete=(row:Partial<DataApi>)=>{
+    const handleDelete=(row:DataApi)=>{
         const confirmDelete=window.confirm(`Are you sure you want to delete "${row.name}"?`)
         if(!confirmDelete || !row.id)
         {
@@ -59,7 +60,7 @@ export default function Table({data}:{data:DataApi[]}) {
         deleteMutation.mutate(String(row.id))
     }
 
-    const handleEdit = (row: Partial<DataApi>) => {
+    const handleEdit = (row:DataApi) => {
     setEditData(row);
     setIsModalOpen(true);
     } 
@@ -73,7 +74,7 @@ export default function Table({data}:{data:DataApi[]}) {
         setIsModalOpen(false);
     };
 
-    const table=useReactTable<Partial<DataApi>>({
+    const table=useReactTable<DataApi>({
         data:tableData,
         columns,
         state:{
@@ -88,7 +89,7 @@ export default function Table({data}:{data:DataApi[]}) {
         meta:{
             onDelete:handleDelete,
             onEdit: handleEdit
-        }  as CustomTableMeta
+        }  
     })
 
    

@@ -15,7 +15,7 @@ export type ModalProps = {
 }
 
 
-export type CustomTableMeta = {
-  onDelete: (row: Partial<DataApi>) => void;
-  onEdit: (row: Partial<DataApi>) => void;
+export interface CustomTableMeta  {
+  onDelete: (row: DataApi) => void;
+  onEdit: (row:DataApi) => void;
 };

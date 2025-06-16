@@ -2,7 +2,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import type { DataApi } from "../types";
 
 
-const columnHelper=createColumnHelper<Partial<DataApi>>()
+const columnHelper=createColumnHelper<DataApi>()
 
 export const columns=[
     columnHelper.accessor("id",{

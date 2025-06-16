@@ -10,12 +10,12 @@ export default function Form({data}:{data:DataApi[]}) {
     const navigate=useNavigate()  
     if(data)
     {
-        console.log("data from form",data)
+        // console.log("data from form",data)
     }
     const mutation=useMutation({
         mutationFn:(newData:DataApi)=>postData(API,newData),
-        onSuccess:(data)=>{
-            console.log("data, successfully added",data)
+        onSuccess:()=>{
+            // console.log("data, successfully added",data)
             setFormData({name:"",description:""})
         },
         onError:(error)=>{

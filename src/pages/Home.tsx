@@ -11,7 +11,7 @@ export default function Home() {
         queryFn:()=>getData(`${API}`)
     })
 
-  console.log("data",data)
+  // console.log("data",data)
   return (
     <Form data={data}/>
   )
